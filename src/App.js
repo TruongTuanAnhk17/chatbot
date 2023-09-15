@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import MessengerCustomerChat from "react-messenger-customer-chat";
 
 function App() {
   return (
@@ -18,6 +19,11 @@ function App() {
           Learn React
         </a>
       </header>
+      <MessengerCustomerChat
+        pageId="132677533257382"
+        appId="1308091889820994"
+      />
+      ,
     </div>
   );
 }
