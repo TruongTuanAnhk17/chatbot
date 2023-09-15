@@ -1,32 +1,29 @@
 import "./App.css";
 import MessengerCustomerChat from "react-messenger-customer-chat";
-import { LoginSocialFacebook } from "reactjs-social-login";
-import { FacebookLoginButton } from "react-social-login-buttons";
-import { useState } from "react";
+import FacebookLogin from "react-facebook-login";
+import axios from "axios";
 
 function App() {
-  const [profile, setProfile] = useState(null);
+  const responseFacebook = (response) => {
+    axios({
+      url: "https://shop.cyberlearn.vn/api/Users/facebooklogin",
+      method: "post",
+      data: {
+        facebookToken: response.accessToken,
+      },
+    }).then((res) => {
+      //Lưu vào localstorage
+      localStorage.setItem("accessToken", res.data.content.accessToken);
+    });
+  };
   return (
     <div className="App">
-      {!profile ? (
-        <LoginSocialFacebook
-          appId="1308091889820994"
-          onResolve={(res) => {
-            console.log(res);
-            setProfile(res.data);
-          }}
-          onReject={(err) => {
-            console.log(err);
-          }}
-        >
-          <FacebookLoginButton />
-        </LoginSocialFacebook>
-      ) : (
-        <>
-          <h1>{profile.name}</h1>
-          <img alt="" src={profile.picture.data.url} />
-        </>
-      )}
+      <FacebookLogin
+        appId="599753691700080"
+        autoLoad={true}
+        fields="name,email,picture"
+        callback={responseFacebook}
+      />
       <MessengerCustomerChat
         pageId="132677533257382"
         appId="1308091889820994"
